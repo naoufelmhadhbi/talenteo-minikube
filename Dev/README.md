@@ -62,7 +62,7 @@
     ```
 
 # Create Kubernetes TLS Secret :
-+ add key and certificate generated before as Kubernetes Secret to used it in kubernetes Ingress in order to ensure a secured access and encrypted data channel via HTTPS
++ add key and certificate generated before as Kubernetes TLS Secret to used it in kubernetes Ingress in order to ensure a secured access and encrypted data channel via HTTPS
 
     ```
     > kubectl create secret tls dev-talenteo-com-tls --key tls_self_dev.key --cert tls_self_dev.crt
@@ -74,6 +74,12 @@
     ```
     > helm install oauth2-helm-dev Dev/oauth2-helm/
     ```
++ If Oauth2-ms can't reach postgres database, delete the postgres kubernetes service named "pg-helm-dev" (you can do it using minikube dashboard) and expose the service by taping this command:
+
+     ```
+    > kubectl expose deployment pg-helm-dev -n talenteo-dev --type=ClusterIP
+    ```
+
 # hr-ms :
 + install hr-helm chart into "talenteo-dev" namespace
 
