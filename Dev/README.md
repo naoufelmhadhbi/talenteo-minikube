@@ -4,7 +4,16 @@
     ```
     > mvn compile com.google.cloud.tools:jib-maven-plugin:1.8.0:dockerBuild -Dmaven.test.skip=true -Dimage=<image-name>:<tag>
     ```
-+ Frontend App was containerized using a dockerfile, here is an example: https://gitlab.com/talenteo/talenteo-ui/-/blob/master/Dockerfile
++ Frontend App was containerized using a dockerfile, here is an example: 
+    ```
+    FROM nginx:latest
+    RUN apt update && apt -y install nginx-extras
+    COPY dist/talenteo-ui /var/www/
+    COPY nginx.conf /etc/nginx/nginx.conf
+    RUN rm /etc/nginx/sites-enabled/default
+    EXPOSE 80
+    ENTRYPOINT ["nginx","-g","daemon off;"]
+    ```
 + All Talenteo micro-services deployed in minikube Dev environment. 
 + Dev environment = namespace in minikube called "talenteo-dev".
 + After creating "talenteo-dev" namespace, you have to switch to this namespace.
@@ -44,7 +53,26 @@
     ```
     > \c talenteo_db_dev
     ```
-+ complete the rest of commands from this link: https://gitlab.com/talenteo/talenteo-wiki/-/wikis/Postgres%20Database
+    ```
+    create user talenteo_hr_dev with password 'secret';
+    create schema hr authorization talenteo_hr_dev;
+
+    create user talenteo_oauth2_dev with password 'secret';
+    create schema oauth2 authorization talenteo_oauth2_dev;
+
+    create user talenteo_td_dev with password 'secret';
+    create schema td authorization talenteo_td_dev;
+
+    create user talenteo_mission_dev with password 'secret';
+    create schema mission authorization talenteo_mission_dev;
+
+    create user talenteo_career_dev with password 'secret';
+    create schema career authorization talenteo_career_dev;
+
+    create user talenteo_notification_dev with password 'secret';
+    create schema notification authorization talenteo_notification_dev;
+    ```
+
 + expose postgres kubernetes service
     ```
     > kubectl expose deployment pg-helm-dev -n talenteo-dev --type=ClusterIP
@@ -89,31 +117,31 @@
 + install td-helm chart into "talenteo-dev" namespace
 
     ```
-    > helm install td-helm-dev td-helm/
+    > helm install td-helm-dev Dev/td-helm/
     ```
 # career-ms :
 + install career-helm chart into "talenteo-dev" namespace
 
     ```
-    > helm install career-helm-dev career-helm/
+    > helm install career-helm-dev Dev/career-helm/
     ```
 # mission-ms :
 + install mission-helm chart into "talenteo-dev" namespace
 
     ```
-    > helm install mission-helm-dev mission-helm/
+    > helm install mission-helm-dev Dev/mission-helm/
     ```
 # notification-ms :
 + install notification-helm chart into "talenteo-dev" namespace
 
     ```
-    > helm install notification-helm-dev notification-helm/
+    > helm install notification-helm-dev Dev/notification-helm/
     ```
 # talenteo-ui-ms :
 + install talenteo-ui-helm chart into "talenteo-dev" namespace
 
     ```
-    > helm install talenteo-ui-helm-dev talenteo-ui-helm/
+    > helm install talenteo-ui-helm-dev Dev/talenteo-ui-helm/
     ```
 # Test :
 + apply these files into "talenteo-dev" namespace which will be helpful for ingress to route traffic correctly

@@ -4,7 +4,16 @@
     ```
     > mvn compile com.google.cloud.tools:jib-maven-plugin:1.8.0:dockerBuild -Dmaven.test.skip=true -Dimage=<image-name>:<tag>
     ```
-+ Frontend App was containerized using a dockerfile, here is an example: https://gitlab.com/talenteo/talenteo-ui/-/blob/master/Dockerfile
++ Frontend App was containerized using a dockerfile, here is an example:
+    ```
+    FROM nginx:latest
+    RUN apt update && apt -y install nginx-extras
+    COPY dist/talenteo-ui /var/www/
+    COPY nginx.conf /etc/nginx/nginx.conf
+    RUN rm /etc/nginx/sites-enabled/default
+    EXPOSE 80
+    ENTRYPOINT ["nginx","-g","daemon off;"]
+    ```
 + All Talenteo micro-services deployed in minikube int environment. 
 + int environment = namespace in minikube called "talenteo-int".
 + After creating "talenteo-int" namespace, you have to switch to this namespace.
@@ -44,7 +53,25 @@
     ```
     > \c talenteo_db_int
     ```
-+ complete the rest of commands from this link: https://gitlab.com/talenteo/talenteo-wiki/-/wikis/Postgres%20Database (don't forget to replace "dev" with "int" when you create each user and schema in your postgres database)
+    ```
+    create user talenteo_hr_int with password 'secret';
+    create schema hr authorization talenteo_hr_int;
+
+    create user talenteo_oauth2_int with password 'secret';
+    create schema oauth2 authorization talenteo_oauth2_int;
+
+    create user talenteo_td_int with password 'secret';
+    create schema td authorization talenteo_td_int;
+
+    create user talenteo_mission_int with password 'secret';
+    create schema mission authorization talenteo_mission_int;
+
+    create user talenteo_career_int with password 'secret';
+    create schema career authorization talenteo_career_int;
+
+    create user talenteo_notification_int with password 'secret';
+    create schema notification authorization talenteo_notification_int;
+    ```
 + expose postgres kubernetes service
     ```
     > kubectl expose deployment pg-helm-int --type=ClusterIP
