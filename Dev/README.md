@@ -45,6 +45,10 @@
     > \c talenteo_db_dev
     ```
 + complete the rest of commands from this link: https://gitlab.com/talenteo/talenteo-wiki/-/wikis/Postgres%20Database
++ expose postgres kubernetes service
+    ```
+    > kubectl expose deployment pg-helm-dev -n talenteo-dev --type=ClusterIP
+    ```
 
 
 # Config-server-ms :
@@ -73,10 +77,6 @@
 
     ```
     > helm install oauth2-helm-dev Dev/oauth2-helm/
-    ```
-+ expose postgres kubernetes service
-     ```
-    > kubectl expose deployment pg-helm-dev -n talenteo-dev --type=ClusterIP
     ```
 
 # hr-ms :
