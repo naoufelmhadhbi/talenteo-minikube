@@ -74,8 +74,7 @@
     ```
     > helm install oauth2-helm-dev Dev/oauth2-helm/
     ```
-+ If Oauth2-ms can't reach postgres database, delete the postgres kubernetes service named "pg-helm-dev" (you can do it using minikube dashboard) and expose the service by taping this command:
-
++ expose postgres kubernetes service
      ```
     > kubectl expose deployment pg-helm-dev -n talenteo-dev --type=ClusterIP
     ```
