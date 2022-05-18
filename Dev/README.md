@@ -1,13 +1,13 @@
 # Talenteo-minikube (Dev environment)
-+ All Talenteo micro-services deployed in minikube Dev environment. 
-+ Dev environment = namespace in minikube called "talenteo-dev".
-+ After creating "talenteo-dev" namespace, you have to switch to this namespace.
 + Backend micro-services were containerized using JIB, you can follow this command syntax to build a local image:
     
     ```
     > mvn compile com.google.cloud.tools:jib-maven-plugin:1.8.0:dockerBuild -Dmaven.test.skip=true -Dimage=<image-name>:<tag>
     ```
 + Frontend App was containerized using a dockerfile, here is an example: https://gitlab.com/talenteo/talenteo-ui/-/blob/master/Dockerfile
++ All Talenteo micro-services deployed in minikube Dev environment. 
++ Dev environment = namespace in minikube called "talenteo-dev".
++ After creating "talenteo-dev" namespace, you have to switch to this namespace.
 + use "minikube ip" command to get the IP @ of your minkube.
 + Add at the end of /etc/hosts this line:  
     ```
